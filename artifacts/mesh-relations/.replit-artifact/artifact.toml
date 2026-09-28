@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Mesh Relations"
+description = "An interactive mesh network diagram where users can add, rename, reposition, and delete circular nodes, then cycle each connection between neutral, negative, and positive relationships."
+version = "1.0.0"
+id = "artifacts/mesh-relations"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 21923
+
+[services.development]
+run = "pnpm --filter @workspace/mesh-relations run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/mesh-relations", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/mesh-relations/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "21923"
+BASE_PATH = "/"
